@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/catalogue_screen.dart';
+import 'screens/galerie_screen.dart';
 import 'screens/ma_liste_screen.dart';
 import 'screens/parametres_screen.dart';
 
@@ -38,7 +39,16 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('MaBiblio'),
         actions: [
-          // Bouton temporaire pour tester MaListeScreen (supprimé à la partie 08)
+          // Boutons temporaires (remplacés par la BottomNavigationBar à la partie 08)
+          IconButton(
+            icon: const Icon(Icons.grid_on),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const GalerieScreen()),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.checklist),
             onPressed: () {
