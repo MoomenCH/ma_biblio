@@ -1,63 +1,76 @@
 import 'package:flutter/material.dart';
+import '../data/livres_data.dart';
+import '../widgets/livre_card.dart';
 
-class ParametresScreen extends StatelessWidget {
-  const ParametresScreen({super.key});
+class CatalogueScreen extends StatelessWidget {
+  const CatalogueScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Paramètres')),
-      body: Column(
-        children: [
-          // Q1.1 + Q1.2 : Mon profil avec onTap et SnackBar
-          ListTile(
-            leading: const Icon(Icons.person),
-            title: const Text('Mon profil'),
-            subtitle: const Text('Nom, e-mail, mot de passe'),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Profil sélectionné')),
+    // Q2.7 : seulement les livres marqués nouveauté
+    final nouveautes = livres.where((l) => l.nouveaute).toList();
+
+    // Q2.8 : Column avec titre, liste horizontale, titre, liste verticale
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: Text(
+            'Nouveautés',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ),
+
+        // Q2.7 : ListView horizontal de 160 px de haut
+        SizedBox(
+          height: 160,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            itemCount: nouveautes.length,
+            itemBuilder: (context, index) {
+              final livre = nouveautes[index];
+              return Container(
+                width: 110,
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: livre.couleur,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  livre.titre,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               );
             },
           ),
+        ),
 
-          // Q1.3 + Q1.5 : Notifications personnalisée
-          ListTile(
-            leading: const Icon(Icons.notifications),
-            title: const Text('Notifications'),
-            subtitle: const Text('Alertes et rappels'),
-            trailing: const Icon(Icons.chevron_right),
-            tileColor: Colors.indigo.shade50,
-            iconColor: Colors.indigo,
-            textColor: Colors.indigo.shade900,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            onTap: () {},
+        const Padding(
+          padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: Text(
+            'Tout le catalogue',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
+        ),
 
-          // Q1.3 : Langue
-          ListTile(
-            leading: const Icon(Icons.language),
-            title: const Text('Langue'),
-            subtitle: const Text('Français'),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () {},
+        // Q2.4 + Q2.6 + Q2.8 : liste verticale dans un Expanded
+        Expanded(
+          child: ListView.separated(
+            itemCount: livres.length,
+            itemBuilder: (context, index) => livreTile(livres[index]),
+            // Q2.6 : séparateur indenté de 72 px (aligné après l'avatar)
+            separatorBuilder: (context, index) => const Divider(indent: 72),
           ),
-
-          // Q1.3 + Q1.4 : À propos
-          ListTile(
-            leading: const Icon(Icons.info),
-            title: const Text('À propos'),
-            subtitle: const Text('MaBiblio version 1.0\nTP Listes et grilles'),
-            // dense: true,      // tuile plus compacte : hauteur et texte réduits
-            isThreeLine: true,   // réserve la place de 3 lignes, icônes alignées en haut
-            // enabled: false,   // tuile grisée, onTap désactivé, plus d'effet d'encre
-            onTap: () {},
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'data/livres_data.dart';
+import 'screens/catalogue_screen.dart';
 import 'screens/parametres_screen.dart';
-import 'widgets/livre_card.dart';
 
 void main() {
   runApp(const MaBiblioApp());
@@ -38,7 +37,6 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('MaBiblio'),
         actions: [
-          // Q1.6 : bouton Paramètres
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
@@ -50,10 +48,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      // Affichage temporaire des 3 premiers livres
-      body: Column(
-        children: livres.take(3).map((l) => livreTile(l)).toList(),
-      ),
+      body: const CatalogueScreen(),
     );
   }
 }
