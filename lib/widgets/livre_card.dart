@@ -22,3 +22,32 @@ Widget livreTile(Livre livre) {
     ),
   );
 }
+
+// Q4.1 : carte réutilisable autour de livreTile()
+class LivreCard extends StatelessWidget {
+  final Livre livre;
+  final VoidCallback? onTap;
+
+  const LivreCard({super.key, required this.livre, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      // Q4.2
+      elevation: 4,
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      // Q4.3
+      shadowColor: Colors.black54,
+      surfaceTintColor: livre.couleur,
+      // Q4.5 : l'effet d'encre respecte les coins arrondis
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: livreTile(livre),
+      ),
+    );
+  }
+}

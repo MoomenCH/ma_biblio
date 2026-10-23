@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import '../data/livres_data.dart';
 import '../widgets/livre_card.dart';
+import 'detail_screen.dart';
 
 class CatalogueScreen extends StatelessWidget {
   const CatalogueScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Q2.7 : seulement les livres marqués nouveauté
     final nouveautes = livres.where((l) => l.nouveaute).toList();
 
-    // Q2.8 : Column avec titre, liste horizontale, titre, liste verticale
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -22,7 +21,6 @@ class CatalogueScreen extends StatelessWidget {
           ),
         ),
 
-        // Q2.7 : ListView horizontal de 160 px de haut
         SizedBox(
           height: 160,
           child: ListView.builder(
@@ -61,13 +59,25 @@ class CatalogueScreen extends StatelessWidget {
           ),
         ),
 
-        // Q2.4 + Q2.6 + Q2.8 : liste verticale dans un Expanded
+        // Q4.4 : ListView.builder sans séparateur (les cartes ont leur marge)
+        // Q4.7 : clic sur une carte -> ouverture du détail
         Expanded(
-          child: ListView.separated(
+          child: ListView.builder(
             itemCount: livres.length,
-            itemBuilder: (context, index) => livreTile(livres[index]),
-            // Q2.6 : séparateur indenté de 72 px (aligné après l'avatar)
-            separatorBuilder: (context, index) => const Divider(indent: 72),
+            itemBuilder: (context, index) {
+              final livre = livres[index];
+              return LivreCard(
+                livre: livre,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => DetailScreen(livre: livre),
+                    ),
+                  );
+                },
+              );
+            },
           ),
         ),
       ],

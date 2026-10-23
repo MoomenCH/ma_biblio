@@ -114,7 +114,7 @@ class _MaListeScreenState extends State<MaListeScreen> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: affiches.length,
-            separatorBuilder: (_, __) => const Divider(height: 1),
+            separatorBuilder: (_, _) => const Divider(height: 1),
             itemBuilder: (context, index) {
               final livre = affiches[index];
               return CheckboxListTile(
